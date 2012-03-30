@@ -200,7 +200,7 @@ class MPDClient
   def read_pair(separator)
     line = read_line
     return if line.nil?
-    pair = line.split(separator)
+    pair = line.split(separator, 2)
     raise "Could now parse pair: '#{line}'" if pair.size < 2
 
     return pair #Array
