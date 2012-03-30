@@ -61,3 +61,7 @@ client.command_list_end      # result will be a Array with the results
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## License
+
+This library is distributed under the MIT license.  Please see the LICENSE file.
