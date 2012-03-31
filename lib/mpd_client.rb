@@ -8,6 +8,7 @@ ERROR_PREFIX = "ACK "
 SUCCESS = "OK"
 NEXT = "list_OK"
 
+# MPD changelog: http://git.musicpd.org/cgit/master/mpd.git/plain/NEWS
 # http://mpd.wikia.com/wiki/MusicPlayerDaemonCommands
 COMMANDS = {
   # Status Commands
@@ -240,6 +241,8 @@ class MPDClient
       end
       result << value
     end
+
+    return result
   end
 
   def fetch_objects(delimeters = [])
