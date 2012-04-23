@@ -1,0 +1,3 @@
+source :rubygems
+
+gem 'mpd_client', :path => '../'
