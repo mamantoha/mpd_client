@@ -10,6 +10,8 @@ NEXT = "list_OK"
 
 # MPD changelog: http://git.musicpd.org/cgit/master/mpd.git/plain/NEWS
 # http://mpd.wikia.com/wiki/MusicPlayerDaemonCommands
+# http://git.musicpd.org/cgit/cirrus/mpd.git/plain/doc/protocol.xml
+#
 COMMANDS = {
   # Status Commands
   "clearerror"         => "fetch_nothing",
@@ -80,6 +82,8 @@ COMMANDS = {
   "listallinfo"        => "fetch_database",
   "lsinfo"             => "fetch_database",
   "search"             => "fetch_songs",
+  "searchadd"             => "fetch_nothing",
+  "searchaddp1"             => "fetch_nothing",
   "update"             => "fetch_item",
   "rescan"             => "fetch_item",
   # Sticker Commands
@@ -120,8 +124,13 @@ class MPDClient
   end
 
   def connect(host = 'localhost', port = 6600)
-    @socket = TCPSocket.new(host, port)
-    hello
+    if host.start_with?('/')
+      @socket = UNIXSocket.new(host)
+      hello
+    else
+      @socket = TCPSocket.new(host, port)
+      hello
+    end
   end
 
   def disconnect
@@ -321,7 +330,7 @@ class MPDClient
   end
 
   def escape(text)
-    text.gsub("\\", "\\\\").gsub('"', '\\"')
+    text.to_s.gsub("\\", "\\\\").gsub('"', '\\"')
   end
 
 end
