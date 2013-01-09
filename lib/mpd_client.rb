@@ -82,8 +82,8 @@ COMMANDS = {
   "listallinfo"        => "fetch_database",
   "lsinfo"             => "fetch_database",
   "search"             => "fetch_songs",
-  "searchadd"             => "fetch_nothing",
-  "searchaddp1"             => "fetch_nothing",
+  "searchadd"          => "fetch_nothing",
+  "searchaddp1"        => "fetch_nothing",
   "update"             => "fetch_item",
   "rescan"             => "fetch_item",
   # Sticker Commands
@@ -116,8 +116,39 @@ COMMANDS = {
   "sendmessage"        => "fetch_nothing"
 }
 
+# The MPDClient library is used for interactions with a MPD.
+#
+# == Example
+#
+#   require 'mpd_client'
+#   require 'logger'
+#
+#   client = MPDClient.new
+#   client.log = Logger.new($stderr)
+#   client.connect('/var/run/mpd/socket')
+#
 class MPDClient
   attr_reader :mpd_version
+
+  class << self
+    # Default logger for all MPDClient instances
+    #
+    #   MPDClient.log = Logger.new($stderr)
+    #
+    attr_accessor :log
+
+    def add_command(name, retval)
+      escaped_name = name.gsub(' ', '_')
+      define_method escaped_name.to_sym do |*args|
+        execute(name, *args, retval)
+      end
+    end
+
+    def remove_command(name)
+      raise "Can't remove not existent '#{name}' command" unless method_defined? name.to_sym
+      remove_method name.to_sym
+    end
+  end
 
   def initialize
     reset
@@ -152,18 +183,19 @@ class MPDClient
     return fetch_command_list
   end
 
-  class << self
-    def add_command(name, retval)
-      define_method name.to_sym do |*args|
-        execute(name, *args, retval)
-      end
-    end
-
-    def remove_command(name)
-      raise "Can't remove not existent '#{name}' command" unless method_defined? name.to_sym
-      remove_method name.to_sym
-    end
+  # Sets the +logger+ used by this instance of MPDClient
+  #
+  def log
+    @log || MPDClient.log
   end
+
+  # Sets the +logger+ used by this instance of MPDClient
+  #
+  def log= logger
+    @log = logger
+  end
+
+
 
   private
 
@@ -178,6 +210,7 @@ class MPDClient
   end
 
   def write_line(line)
+    log.debug("MPD command: #{line}") if log
     @socket.puts line
     @socket.flush
   end
@@ -327,6 +360,7 @@ class MPDClient
     @mpd_version = nil
     @command_list = nil
     @socket = nil
+    @log = nil
   end
 
   def escape(text)
