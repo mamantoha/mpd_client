@@ -87,10 +87,10 @@ COMMANDS = {
   "update"             => "fetch_item",
   "rescan"             => "fetch_item",
   # Sticker Commands
-  "sticker get"        => "fetch_item",
+  "sticker get"        => "fetch_sticker",
   "sticker set"        => "fetch_nothing",
   "sticker delete"     => "fetch_nothing",
-  "sticker list"       => "fetch_list",
+  "sticker list"       => "fetch_stickers",
   "sticker find"       => "fetch_songs",
   # Connection Commands
   "close"              => "",
@@ -183,7 +183,7 @@ class MPDClient
     return fetch_command_list
   end
 
-  # Sets the +logger+ used by this instance of MPDClient
+  # The current logger. If no logger has been set MPDClient.log is used
   #
   def log
     @log || MPDClient.log
@@ -194,8 +194,6 @@ class MPDClient
   def log= logger
     @log = logger
   end
-
-
 
   private
 
@@ -333,6 +331,19 @@ class MPDClient
 
     return result
   end
+
+  def fetch_stickers
+    result = []
+    read_pairs.each do |key, sticker|
+      value = sticker.split('=', 2)
+      raise "Could now parse sticker: #{sticker}" if value.size < 2
+      result << Hash[*value]
+    end
+
+    return result
+  end
+
+  def fetch_sticker; fetch_stickers[0]; end
 
   def fetch_command_list
     result = []

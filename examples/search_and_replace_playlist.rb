@@ -3,12 +3,18 @@
 require 'bundler'
 Bundler.setup :default
 
+require 'logger'
 require 'mpd_client'
+
+#MPDClient.log = Logger.new($stderr)
+
+client = MPDClient.new
 
 type = ARGV[0]
 what = ARGV[1]
 
 client = MPDClient.new
+client.log = Logger.new($stderr)
 
 # Connecting to the server
 client.connect('localhost', 6600)
