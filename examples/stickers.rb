@@ -6,11 +6,12 @@ Bundler.setup :default
 require 'logger'
 require 'mpd_client'
 
-type = ARGV[0]
-what = ARGV[1]
+MPDClient.log = Logger.new($stderr)
+
+# Stickers
+# http://www.musicpd.org/doc/protocol/ch03s07.html
 
 client = MPDClient.new
-client.log = Logger.new($stderr)
 
 # Connecting to the server
 client.connect('/var/run/mpd/socket')
@@ -44,7 +45,7 @@ puts client.sticker_find('song', '/', 'rating')
 # sticker delete {TYPE} {URI} [NAME]
 #   Deletes a sticker value from the specified object. If you do not specify a sticker name, all sticker values are deleted.
 #
-puts client.sticker_delete('song', uri, 'rating')
+client.sticker_delete('song', uri, 'rating')
 
 client.close
 client.disconnect

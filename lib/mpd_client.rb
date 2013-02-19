@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# encoding: utf-8
 
 require 'socket'
 require "mpd_client/version"
@@ -155,6 +155,7 @@ class MPDClient
   end
 
   def connect(host = 'localhost', port = 6600)
+    log.info("MPD connect #{host}, #{port}") if log
     if host.start_with?('/')
       @socket = UNIXSocket.new(host)
       hello
@@ -165,6 +166,7 @@ class MPDClient
   end
 
   def disconnect
+    log.info("MPD disconnect")
     @socket.close
     reset
   end
@@ -208,14 +210,21 @@ class MPDClient
   end
 
   def write_line(line)
-    log.debug("MPD command: #{line}") if log
     @socket.puts line
     @socket.flush
   end
 
   def write_command(command, *args)
     parts = [command]
-    args.each{|arg| parts << "\"#{escape(arg)}\""}
+    args.each do |arg|
+      if arg.kind_of?(Array)
+        parts << (arg.size == 1 ? "\"#{arg[0].to_i}:\"" : "\"#{arg[0].to_i}:#{arg[1].to_i}\"")
+      else
+        parts << "\"#{escape(arg)}\""
+      end
+    end
+    #log.debug("Calling MPD: #{command}#{args}") if log
+    log.debug("Calling MPD: #{parts.join(' ')}") if log
     write_line(parts.join(' '))
   end
 
