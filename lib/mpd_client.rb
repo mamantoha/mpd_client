@@ -166,7 +166,7 @@ class MPDClient
   end
 
   def disconnect
-    log.info("MPD disconnect")
+    log.info("MPD disconnect") if log
     @socket.close
     reset
   end
