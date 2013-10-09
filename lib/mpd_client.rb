@@ -181,7 +181,7 @@ class MPDClient
   def command_list_end
     raise "Not in command list" if @command_list.nil?
     write_command('command_list_end')
-    
+
     return fetch_command_list
   end
 
@@ -319,19 +319,19 @@ class MPDClient
   end
 
   def fetch_changes; fetch_objects(['cpos']); end
-  
+
   def fetch_songs; fetch_objects(['file']); end
 
   def fetch_messages; fetch_objects('channel'); end
 
   def fetch_outputs; fetch_objects(['outputid']); end
-  
+
   def fetch_plugins; fetch_objects(['plugin']); end
 
   def fetch_database; fetch_objects(['file', 'directory', 'playlist']); end
-  
+
   def fetch_playlists; fetch_objects(['playlist']); end
-  
+
   def fetch_playlist
     result = []
     read_pairs(':').each do |key, value|
@@ -363,7 +363,7 @@ class MPDClient
     ensure
       @command_list = nil
     end
-  
+
     return result
   end
 
