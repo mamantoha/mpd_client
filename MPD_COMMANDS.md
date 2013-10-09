@@ -27,7 +27,7 @@
 * `subscription`: a client has subscribed or unsubscribed to a channel
 * `message`: a message was received on a channel this client is subscribed to; this event is only emitted when the queue is empty
 
-> While a client is waiting for `idle` results, the server disables timeouts, allowing a client to wait for events as long as mpd runs. The `idle` command can be canceled by sending the command `noidle` (no other commands are allowed). MPD will then leave `idle` mode and print results immediately; might be empty at this time. 
+> While a client is waiting for `idle` results, the server disables timeouts, allowing a client to wait for events as long as mpd runs. The `idle` command can be canceled by sending the command `noidle` (no other commands are allowed). MPD will then leave `idle` mode and print results immediately; might be empty at this time.
 
 > If the optional `SUBSYSTEMS` argument is used, MPD will only send notifications when something changed in one of the specified subsytems.
 
@@ -90,7 +90,7 @@
 ---
 `mixrampdb {deciBels} => fetch_nothing`
 
-> Sets the threshold at which songs will be overlapped. Like crossfading but doesn't fade the track volume, just overlaps. The songs need to have MixRamp tags added by an external tool. 0dB is the normalized maximum volume so use negative values, I prefer -17dB. In the absence of mixramp tags crossfading will be used. See http://sourceforge.net/projects/mixramp 
+> Sets the threshold at which songs will be overlapped. Like crossfading but doesn't fade the track volume, just overlaps. The songs need to have MixRamp tags added by an external tool. 0dB is the normalized maximum volume so use negative values, I prefer -17dB. In the absence of mixramp tags crossfading will be used. See http://sourceforge.net/projects/mixramp
 
 ---
 `mixrampdelay {SECONDS} => fetch_nothing`
@@ -115,7 +115,7 @@
 ---
 `single {STATE} => fetch_nothing`
 
-> Sets single state to `STATE`, `STATE` should be 0 or 1. When single is activated, playback is stopped after current song, or song is repeated if the 'repeat' mode is enabled. 
+> Sets single state to `STATE`, `STATE` should be 0 or 1. When single is activated, playback is stopped after current song, or song is repeated if the 'repeat' mode is enabled.
 
 ---
 `replay_gain_mode {MODE} => fetch_nothing`
@@ -257,7 +257,7 @@
 ---
 `plchangesposid {VERSION} => fetch_changes`
 
-> Displays changed songs currently in the playlist since `VERSION`. This function only returns the position and the id of the changed song, not the complete metadata. This is more bandwidth efficient. 
+> Displays changed songs currently in the playlist since `VERSION`. This function only returns the position and the id of the changed song, not the complete metadata. This is more bandwidth efficient.
 
 > To detect songs that were deleted at the end of the playlist, use `playlistlength` returned by status command.
 
@@ -309,7 +309,7 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Prints a list of the playlist directory.
 
-> After each playlist name the server sends its last modification time as attribute "Last-Modified" in ISO 8601 format. To avoid problems due to clock differences between clients and the server, clients should not compare this value with their local clock. 
+> After each playlist name the server sends its last modification time as attribute "Last-Modified" in ISO 8601 format. To avoid problems due to clock differences between clients and the server, clients should not compare this value with their local clock.
 
 ---
 `load {NAME} [START:END] => fetch_nothing`
@@ -363,7 +363,7 @@ Some of the commands described in this section can be used to run playlist plugi
 ---
 `find {TYPE} {WHAT} [...] => fetch_songs`
 
-> Finds songs in the db that are exactly `WHAT`. `TYPE` can be any tag supported by MPD, or one of the two special parameters — file to search by full path (relative to database root), and any to match against all available tags. `WHAT` is what to find. 
+> Finds songs in the db that are exactly `WHAT`. `TYPE` can be any tag supported by MPD, or one of the two special parameters — file to search by full path (relative to database root), and any to match against all available tags. `WHAT` is what to find.
 
 ---
 `findadd {TYPE} {WHAT} [...] => fetch_nothing`
@@ -433,7 +433,7 @@ Some of the commands described in this section can be used to run playlist plugi
 
 ### Sticker Commands
 
-"Stickers" are pieces of information attached to existing MPD objects (e.g. song files, directories, albums). Clients can create arbitrary name/value pairs. MPD itself does not assume any special meaning in them. 
+"Stickers" are pieces of information attached to existing MPD objects (e.g. song files, directories, albums). Clients can create arbitrary name/value pairs. MPD itself does not assume any special meaning in them.
 
 The goal is to allow clients to share additional (possibly dynamic) information about songs, which is neither stored on the client (not available to other clients), nor stored in the song files (MPD has no write access).
 
@@ -546,9 +546,9 @@ Objects which may have stickers are addressed by their object type ("song" for s
 
 ### Client to client
 
-Clients can communicate with each others over "channels". A channel is created by a client subscribing to it. More than one client can be subscribed to a channel at a time; all of them will receive the messages which get sent to it. 
+Clients can communicate with each others over "channels". A channel is created by a client subscribing to it. More than one client can be subscribed to a channel at a time; all of them will receive the messages which get sent to it.
 
-Each time a client subscribes or unsubscribes, the global idle event subscription is generated. In conjunction with the channels command, this may be used to auto-detect clients providing additional services. 
+Each time a client subscribes or unsubscribes, the global idle event subscription is generated. In conjunction with the channels command, this may be used to auto-detect clients providing additional services.
 
 New messages are indicated by the message idle event.
 
