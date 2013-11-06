@@ -131,6 +131,10 @@
 
 > Prints replay gain options. Currently, only the variable `replay_gain_mode` is returned.
 
+---
+`volume {CHANGE} => fetch_nothing`
+
+> Changes volume by amount `CHANGE`.
 
 ### Playback Control Commands
 

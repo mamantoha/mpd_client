@@ -31,6 +31,7 @@ COMMANDS = {
   "single"             => "fetch_nothing",
   "replay_gain_mode"   => "fetch_nothing",
   "replay_gain_status" => "fetch_item",
+  "volume"             => "fetch_nothing",
   # Playback Control Commands
   "next"               => "fetch_nothing",
   "pause"              => "fetch_nothing",

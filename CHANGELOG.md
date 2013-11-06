@@ -2,7 +2,7 @@
 
 ### 0.0.4
 
-* Add support for readcomments, toggleoutput
+* Add support for readcomments, toggleoutput, volume
 
 ### 0.0.3
 
