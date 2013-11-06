@@ -1,5 +1,9 @@
 # MPDClient CHANGELOG
 
+### 0.0.4
+
+* Add support for readcomments
+
 ### 0.0.3
 
 * Support for logging

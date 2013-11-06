@@ -86,6 +86,7 @@ COMMANDS = {
   "searchaddp1"        => "fetch_nothing",
   "update"             => "fetch_item",
   "rescan"             => "fetch_item",
+  "readcomments"       => "fetch_item",
   # Sticker Commands
   "sticker get"        => "fetch_sticker",
   "sticker set"        => "fetch_nothing",

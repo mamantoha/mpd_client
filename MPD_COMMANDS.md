@@ -431,6 +431,15 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Same as `update`, but also rescans unmodified files.
 
+---
+`readcomments [URI] => fetch_object`
+
+> Read "comments" (i.e. key-value pairs) from the file specified by `URI`. This `URI` can be a path relative to the music directory or a URL in the form `file:///foo/bar.ogg`.
+
+> The response consists of lines in the form "KEY: VALUE". Comments with suspicious characters (e.g. newlines) are ignored silently.
+
+> The meaning of these depends on the codec, and not all decoder plugins support it.  For example, on Ogg files, this lists the Vorbis comments.
+
 ### Sticker Commands
 
 "Stickers" are pieces of information attached to existing MPD objects (e.g. song files, directories, albums). Clients can create arbitrary name/value pairs. MPD itself does not assume any special meaning in them.
