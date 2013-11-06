@@ -5,6 +5,7 @@
 * Support for logging
 * Better support for fetching stickers from MPD
 * Fixed sticker commands
+* Add support for ranges
 
 ### 0.0.2
 
