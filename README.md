@@ -110,6 +110,8 @@ For more information about logging configuration, see http://www.ruby-doc.org/st
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-## License
+## License and Author
+
+Copyright (c) 2013 by Anton Maminov
 
 This library is distributed under the MIT license.  Please see the LICENSE file.
