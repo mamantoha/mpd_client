@@ -2,7 +2,7 @@
 
 ### 0.0.4
 
-* Add support for readcomments
+* Add support for readcomments, toggleoutput
 
 ### 0.0.3
 

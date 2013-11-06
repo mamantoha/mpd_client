@@ -102,6 +102,7 @@ COMMANDS = {
   "disableoutput"      => "fetch_nothing",
   "enableoutput"       => "fetch_nothing",
   "outputs"            => "fetch_outputs",
+  "toggleoutput"       => "fetch_nothing",
   # Reflection Commands
   "config"             => "fetch_item",
   "commands"           => "fetch_list",

@@ -514,6 +514,12 @@ Objects which may have stickers are addressed by their object type ("song" for s
 
 > Shows information about all outputs.
 
+---
+`toggleoutput {ID} => fetch_nothing`
+
+> Turns an output on or off, depending on the current state.
+
+
 ### Reflection Commands
 
 ---
