@@ -1,4 +1,15 @@
-### Status Commands
+* [Status Commands](#status commands)
+* [Playback Option Commands](#playback option commands)
+* [Playback Control Commands](#playback control commands)
+* [Playlist Commands](#playlist commands)
+* [Stored Playlist Commands](#stored playlist commands)
+* [Database Commands](#database commands)
+* [Sticker Commands](#sticker commands)
+* [Connection Commands](#connection commands)
+* [Reflection Commands](#reflection commands)
+* [Client to client](#client to client)
+
+### <a id="status commands"></a>Status Commands ###
 
 ---
 `clearerror => fetch_nothing`
@@ -75,7 +86,7 @@
 * `db_update`: last db update in UNIX time
 * `playtime`: time length of music played
 
-### Playback Option Commands
+### <a id="playback option commands"></a>Playback Option Commands ###
 
 ---
 `consume {STATE} => fetch_nothing`
@@ -136,7 +147,7 @@
 
 > Changes volume by amount `CHANGE`.
 
-### Playback Control Commands
+### <a id="playback control commands"></a>Playback Control Commands ###
 
 ---
 `next => fetch_nothing`
@@ -185,7 +196,7 @@
 > Stops playing.
 
 
-### Playlist Commands
+### <a id="playlist commands"></a>Playlist Commands ###
 
 ---
 `add {URI} => fetch_nothing`
@@ -292,7 +303,7 @@
 
 Swaps the positions of `SONG1` and `SONG2` (both song ids).
 
-### Stored Playlist Commands
+### <a id="stored playlist commands"></a>Stored Playlist Commands ###
 
 Playlists are stored inside the configured playlist directory. They are addressed with their file name (without the directory and without the .m3u suffix).
 
@@ -357,7 +368,7 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Saves the current playlist to `NAME.m3u` in the playlist directory.
 
-### Database Commands
+### <a id="database commands"></a>Database Commands ###
 
 ---
 `count {TAG} {NEEDLE} => fetch_object`
@@ -444,7 +455,7 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > The meaning of these depends on the codec, and not all decoder plugins support it.  For example, on Ogg files, this lists the Vorbis comments.
 
-### Sticker Commands
+### <a id="sticker commands"></a>Sticker Commands ###
 
 "Stickers" are pieces of information attached to existing MPD objects (e.g. song files, directories, albums). Clients can create arbitrary name/value pairs. MPD itself does not assume any special meaning in them.
 
@@ -479,7 +490,7 @@ Objects which may have stickers are addressed by their object type ("song" for s
 
 > Searches the sticker database for stickers with the specified name, below the specified directory (`URI`). For each matching song, it prints the URI and that one sticker's value.
 
-### Connection Commands
+### <a id="connection commands"></a>Connection Commands ###
 
 ---
 `close`
@@ -524,7 +535,7 @@ Objects which may have stickers are addressed by their object type ("song" for s
 > Turns an output on or off, depending on the current state.
 
 
-### Reflection Commands
+### <a id="reflection commands"></a>Reflection Commands ###
 
 ---
 `config => fetch_item`
@@ -563,7 +574,7 @@ Objects which may have stickers are addressed by their object type ("song" for s
 
 > Print a list of decoder plugins, followed by their supported suffixes and MIME types.
 
-### Client to client
+### <a id="client to client"></a>Client to client ###
 
 Clients can communicate with each others over "channels". A channel is created by a client subscribing to it. More than one client can be subscribed to a channel at a time; all of them will receive the messages which get sent to it.
 
