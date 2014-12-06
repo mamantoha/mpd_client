@@ -154,6 +154,7 @@ class MPDClient
   end
 
   def initialize
+    @mutex = Mutex.new
     reset
   end
 
@@ -203,12 +204,14 @@ class MPDClient
   private
 
   def execute(command, *args, retval)
-    if !@command_list.nil?
-      write_command(command, *args)
-      @command_list << retval
-    else
-      write_command(command, *args)
-      eval retval
+    @mutex.synchronize do
+      if !@command_list.nil?
+        write_command(command, *args)
+        @command_list << retval
+      else
+        write_command(command, *args)
+        eval retval
+      end
     end
   end
 
