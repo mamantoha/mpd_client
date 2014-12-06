@@ -158,12 +158,18 @@ class MPDClient
   end
 
   def connect(host = 'localhost', port = 6600)
-    log.info("MPD connect #{host}, #{port}") if log
-    if host.start_with?('/')
-      @socket = UNIXSocket.new(host)
+    @host = host
+    @port = port
+    reconnect
+  end
+
+  def reconnect
+    log.info("MPD (re)connect #{host}, #{port}") if log
+    if @host.start_with?('/')
+      @socket = UNIXSocket.new(@host)
       hello
     else
-      @socket = TCPSocket.new(host, port)
+      @socket = TCPSocket.new(@host, @port)
       hello
     end
   end
@@ -213,7 +219,12 @@ class MPDClient
   end
 
   def write_line(line)
-    @socket.puts line
+    begin
+      @socket.puts line
+    rescue Errno::EPIPE
+      reconnect
+      @socket.puts line
+    end
     @socket.flush
   end
 
