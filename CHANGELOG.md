@@ -2,7 +2,9 @@
 
 ### 0.0.4
 
-* Add support for readcomments, toggleoutput, volume
+* Added support for readcomments, toggleoutput, volume
+* Added a mutex protecting execution of MPD commands
+* Automatic reconnect after the server dropped the connection
 
 ### 0.0.3
 
