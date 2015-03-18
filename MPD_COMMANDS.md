@@ -4,6 +4,7 @@
 * [Playlist Commands](#playlist-commands)
 * [Stored Playlist Commands](#stored-playlist-commands)
 * [Database Commands](#database-commands)
+* [Mounts and neighbors](#mounts-and-neighbors)
 * [Sticker Commands](#sticker-commands)
 * [Connection Commands](#connection-commands)
 * [Reflection Commands](#reflection-commands)
@@ -289,6 +290,11 @@
 > Same as `prio`, but address the songs with their id.
 
 ---
+`rangeid {ID} {START:END} => fetch_nothing`
+
+> Specifies the portion of the song that shall be played. `START` and `END` are offsets in seconds (fractional seconds allowed); both are optional. Omitting both (i.e. sending just ":") means "remove the range, play everything". A song that is currently playing cannot be manipulated this way.
+
+---
 `shuffle [START:END] => fetch_nothing`
 
 > Shuffles the current playlist. `START:END` is optional and specifies a range of songs.
@@ -301,7 +307,17 @@
 ---
 `swapid {SONG1} {SONG2} => fetch_nothing`
 
-Swaps the positions of `SONG1` and `SONG2` (both song ids).
+> Swaps the positions of `SONG1` and `SONG2` (both song ids).
+
+---
+`addtagid {SONGID} {TAG} {VALUE} => fetch_nothing`
+
+> Adds a `TAG` to the specified `SONGID`. Editing song tags is only possible for remote songs. This change is volatile: it may be overwritten by tags received from the server, and the data is gone when the song gets removed from the queue.
+
+---
+`cleartagid {SONGID} [TAG] => fetch_nothing`
+
+> Removes `TAG` from the specified `SONGID`. If `TAG` is not specified, then all tag values will be removed. Editing song tags is only possible for remote songs.
 
 ### Stored Playlist Commands ###
 
@@ -403,6 +419,13 @@ Some of the commands described in this section can be used to run playlist plugi
 > Same as `listall`, except it also returns metadata info in the same format as `lsinfo`.
 
 ---
+`listfiles [URI]`
+
+> Lists the contents of the directory `URI`, including files are not recognized by `MPD`. `URI` can be a path relative to the music directory or an `URI` understood by one of the storage plugins. The response contains at least one line for each directory entry with the prefix `"file: "` or  `"directory: "`, and may be followed by file attributes such as `"Last-Modified"` and `"size"`.
+
+> For example, `smb://SERVER` returns a list of all shares on the given SMB/CIFS server; `nfs://servername/path` obtains a directory listing from the NFS server.
+
+---
 `lsinfo [URI] => fetch_database`
 
 > Lists the contents of the directory `URI`.
@@ -454,6 +477,32 @@ Some of the commands described in this section can be used to run playlist plugi
 > The response consists of lines in the form "KEY: VALUE". Comments with suspicious characters (e.g. newlines) are ignored silently.
 
 > The meaning of these depends on the codec, and not all decoder plugins support it.  For example, on Ogg files, this lists the Vorbis comments.
+
+### Mounts and neighbors ###
+
+A "storage" provides access to files in the directory tree. The most basic storage plugin is a "local" storage plugin which accesses the local file system, and there are plugins to access NFS and SMB servers.
+
+Multiple storages can be "mounted" together, similar to the `mount` command on many operationg systems, but without cooperation from the kernel. No superuser privileges are necessary, beause this mapping exists only inside the `MPD` process.
+
+---
+`mount {PATH} {URI} => fetch_nothing`
+
+> Mount the specified remote storage `URI` at the given `PATH`
+
+---
+`unmount {PATH} => fetch_nothing`
+
+> Unmounts the specified `PATH`
+
+---
+`listmounts => fetch_mounts`
+
+> Queries a list of all mounts.  By default, this contains just the configured `music_directory`
+
+---
+`listneighbors => fetch_neighbors`
+
+> Queries a list of "neighbors" (e.g. accessible file servers on the local net).  Items on that list may be used with the `mount` command.
 
 ### Sticker Commands ###
 

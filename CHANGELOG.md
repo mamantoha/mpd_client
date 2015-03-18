@@ -1,5 +1,11 @@
 # MPDClient CHANGELOG
 
+### 0.0.5
+
+* Support for mount, umount, listmounts, listneighbors
+* Support for listfiles
+* Support for rangeid, addtagid, cleartagid
+
 ### 0.0.4
 
 * Added support for readcomments, toggleoutput, volume
