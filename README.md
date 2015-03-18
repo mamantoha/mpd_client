@@ -112,6 +112,6 @@ For more information about logging configuration, see http://www.ruby-doc.org/st
 
 ## License and Author
 
-Copyright (c) 2013 by Anton Maminov
+Copyright (c) 2013-2015 by Anton Maminov
 
 This library is distributed under the MIT license.  Please see the LICENSE file.
