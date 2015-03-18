@@ -174,7 +174,7 @@ class MPDClient
   end
 
   def reconnect
-    log.info("MPD (re)connect #{host}, #{port}") if log
+    log.info("MPD (re)connect #{@host}, #{@port}") if log
     if @host.start_with?('/')
       @socket = UNIXSocket.new(@host)
       hello
