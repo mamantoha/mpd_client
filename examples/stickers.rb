@@ -14,7 +14,7 @@ MPDClient.log = Logger.new($stderr)
 client = MPDClient.new
 
 # Connecting to the server
-client.connect('/var/run/mpd/socket')
+client.connect('/run/mpd/socket')
 
 puts "MPD version: #{client.mpd_version}"
 puts "mpd_client version: #{MPDClient::VERSION}"

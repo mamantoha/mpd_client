@@ -14,6 +14,7 @@ client.connect('localhost', 6600)
 client.delete([10,])
 
 # move the first three songs after the fifth number in the playlist
-client.move([0, 3], 69)
+client.move([0, 3], 5)
 
-pp client.playlistinfo([69, 71])
+# print songs form 5 to 10
+client.playlistinfo([5, 10]).each{ |s| puts "#{s['artist']} - #{s['title']}"}
