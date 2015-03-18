@@ -419,7 +419,7 @@ Some of the commands described in this section can be used to run playlist plugi
 > Same as `listall`, except it also returns metadata info in the same format as `lsinfo`.
 
 ---
-`listfiles [URI]`
+`listfiles [URI] => fetch_database`
 
 > Lists the contents of the directory `URI`, including files are not recognized by `MPD`. `URI` can be a path relative to the music directory or an `URI` understood by one of the storage plugins. The response contains at least one line for each directory entry with the prefix `"file: "` or  `"directory: "`, and may be followed by file attributes such as `"Last-Modified"` and `"size"`.
 
