@@ -9,7 +9,7 @@ SUCCESS = "OK"
 NEXT = "list_OK"
 
 # MPD changelog: http://git.musicpd.org/cgit/master/mpd.git/plain/NEWS
-# http://mpd.wikia.com/wiki/MusicPlayerDaemonCommands
+# http://www.musicpd.org/doc/protocol/command_reference.html
 # http://git.musicpd.org/cgit/cirrus/mpd.git/plain/doc/protocol.xml
 #
 COMMANDS = {
@@ -45,6 +45,8 @@ COMMANDS = {
   # Playlist Commands
   "add"                => "fetch_nothing",
   "addid"              => "fetch_item",
+  "addtagid"           => "fetch_nothing",
+  "cleartagid"         => "fetch_nothing",
   "clear"              => "fetch_nothing",
   "delete"             => "fetch_nothing",
   "deleteid"           => "fetch_nothing",
@@ -59,6 +61,7 @@ COMMANDS = {
   "plchangesposid"     => "fetch_changes",
   "prio"               => "fetch_nothing",
   "prioid"             => "fetch_nothing",
+  "rangeid"            => "fetch_nothing",
   "shuffle"            => "fetch_nothing",
   "swap"               => "fetch_nothing",
   "swapid"             => "fetch_nothing",
@@ -81,6 +84,7 @@ COMMANDS = {
   "list"               => "fetch_list",
   "listall"            => "fetch_database",
   "listallinfo"        => "fetch_database",
+  "listfiles"          => "fetch_database",
   "lsinfo"             => "fetch_database",
   "search"             => "fetch_songs",
   "searchadd"          => "fetch_nothing",
@@ -88,6 +92,11 @@ COMMANDS = {
   "update"             => "fetch_item",
   "rescan"             => "fetch_item",
   "readcomments"       => "fetch_item",
+  # Mounts and neighbors
+  "mount"              => "fetch_nothing",
+  "unmount"            => "fetch_nothing",
+  "listmounts"         => "fetch_mounts",
+  "listneighbors"      => "fetch_neighbors",
   # Sticker Commands
   "sticker get"        => "fetch_sticker",
   "sticker set"        => "fetch_nothing",
@@ -338,6 +347,10 @@ class MPDClient
   def fetch_changes; fetch_objects(['cpos']); end
 
   def fetch_songs; fetch_objects(['file']); end
+
+  def fetch_mounts; fetch_objects(['mount']); end
+
+  def fetch_neighbors; fetch_objects(['neighbor']); end
 
   def fetch_messages; fetch_objects('channel'); end
 
