@@ -1,12 +1,10 @@
-# -*- encoding: utf-8 -*-
-
 require 'bundler'
 Bundler.setup :default
 
 require 'logger'
 require 'mpd_client'
 
-#MPDClient.log = Logger.new($stderr)
+# MPDClient.log = Logger.new($stderr)
 
 client = MPDClient.new
 

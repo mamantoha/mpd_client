@@ -99,8 +99,13 @@ client = MPDClient.new
 client.log = Logger.new($stderr)
 ```
 
-
 For more information about logging configuration, see http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html
+
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
@@ -112,6 +117,6 @@ For more information about logging configuration, see http://www.ruby-doc.org/st
 
 ## License and Author
 
-Copyright (c) 2013-2015 by Anton Maminov
+Copyright (c) 2013-2017 by Anton Maminov
 
 This library is distributed under the MIT license.  Please see the LICENSE file.

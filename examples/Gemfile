@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 
-gem 'mpd_client', :path => '../'
+gem 'mpd_client', path: '../'
