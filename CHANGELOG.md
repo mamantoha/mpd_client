@@ -1,5 +1,9 @@
 # MPDClient CHANGELOG
 
+### 0.0.6
+
+* Fixed readcomments command
+
 ### 0.0.5
 
 * Support for mount, umount, listmounts, listneighbors
