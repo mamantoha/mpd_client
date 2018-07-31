@@ -153,7 +153,7 @@ module MPD
         client = MPD::Client.new
         client.connect(host, port)
 
-        return client
+        client
       end
 
       def add_command(name, retval)
@@ -225,7 +225,7 @@ module MPD
       raise "Not in command list" if @command_list.nil?
       write_command('command_list_end')
 
-      return fetch_command_list
+      fetch_command_list
     end
 
     # The current logger. If no logger has been set MPD::Client.log is used
@@ -298,7 +298,7 @@ module MPD
         return
       end
 
-      return line
+      line
     end
 
     def read_pair(separator)
@@ -307,7 +307,7 @@ module MPD
       pair = line.split(separator, 2)
       raise "Could now parse pair: '#{line}'" if pair.size < 2
 
-      return pair #Array
+      pair #Array
     end
 
     def read_pairs(separator = ': ')
@@ -318,18 +318,19 @@ module MPD
         pair = read_pair(separator)
       end
 
-      return result
+      result
     end
 
     def fetch_item
       pairs = read_pairs
       return nil if pairs.size != 1
-      return pairs[0][1]
+
+      pairs[0][1]
     end
 
     def fetch_nothing
       line = read_line
-      raise "Got unexpected return value: #{line}" unless line.nil?
+      raise "Got unexpected value: #{line}" unless line.nil?
     end
 
     def fetch_list
@@ -345,7 +346,7 @@ module MPD
         result << value
       end
 
-      return result
+      result
     end
 
     def fetch_objects(delimeters = [])
@@ -364,12 +365,13 @@ module MPD
 
       result << obj unless obj.empty?
 
-      return result
+      result
     end
 
     def fetch_object
       objs = fetch_objects
-      return objs ? objs[0] : {}
+
+      objs ? objs[0] : {}
     end
 
     def fetch_changes; fetch_objects(['cpos']); end
@@ -396,7 +398,7 @@ module MPD
         result << value
       end
 
-      return result
+      result
     end
 
     def fetch_stickers
@@ -407,7 +409,7 @@ module MPD
         result << Hash[*value]
       end
 
-      return result
+      result
     end
 
     def fetch_sticker; fetch_stickers[0]; end
@@ -422,7 +424,7 @@ module MPD
         @command_list = nil
       end
 
-      return result
+      result
     end
 
     def hello
