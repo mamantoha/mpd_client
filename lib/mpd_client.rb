@@ -374,23 +374,41 @@ module MPD
       objs ? objs[0] : {}
     end
 
-    def fetch_changes; fetch_objects(['cpos']); end
+    def fetch_changes
+      fetch_objects(['cpos'])
+    end
 
-    def fetch_songs; fetch_objects(['file']); end
+    def fetch_songs
+      fetch_objects(['file'])
+    end
 
-    def fetch_mounts; fetch_objects(['mount']); end
+    def fetch_mounts
+      fetch_objects(['mount'])
+    end
 
-    def fetch_neighbors; fetch_objects(['neighbor']); end
+    def fetch_neighbors
+      fetch_objects(['neighbor'])
+    end
 
-    def fetch_messages; fetch_objects('channel'); end
+    def fetch_messages
+      fetch_objects('channel')
+    end
 
-    def fetch_outputs; fetch_objects(['outputid']); end
+    def fetch_outputs
+      fetch_objects(['outputid'])
+    end
 
-    def fetch_plugins; fetch_objects(['plugin']); end
+    def fetch_plugins
+      fetch_objects(['plugin'])
+    end
 
-    def fetch_database; fetch_objects(['file', 'directory', 'playlist']); end
+    def fetch_database
+      fetch_objects(['file', 'directory', 'playlist'])
+    end
 
-    def fetch_playlists; fetch_objects(['playlist']); end
+    def fetch_playlists
+      fetch_objects(['playlist'])
+    end
 
     def fetch_playlist
       result = []
