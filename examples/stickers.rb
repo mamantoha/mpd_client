@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler'
 Bundler.setup :default
 
@@ -17,10 +19,11 @@ client.connect('/run/mpd/socket')
 puts "MPD version: #{client.mpd_version}"
 puts "mpd_client version: #{MPD::Client::VERSION}"
 
-uri = "world/j/Jane Air/2012.Иллюзия полёта/12. Любить любовь.ogg"
+uri = 'world/j/Jane Air/2012.Иллюзия полёта/12. Любить любовь.ogg'
 
 # sticker set {TYPE} {URI} {NAME} {VALUE}
-#   Adds a sticker value to the specified object. If a sticker item with that name already exists, it is replaced.
+#   Adds a sticker value to the specified object.
+#   If a sticker item with that name already exists, it is replaced.
 #
 client.sticker_set('song', uri, 'rating', '1')
 
@@ -41,7 +44,8 @@ puts client.sticker_list('song', uri)
 puts client.sticker_find('song', '/', 'rating')
 
 # sticker delete {TYPE} {URI} [NAME]
-#   Deletes a sticker value from the specified object. If you do not specify a sticker name, all sticker values are deleted.
+#   Deletes a sticker value from the specified object.
+#   If you do not specify a sticker name, all sticker values are deleted.
 #
 client.sticker_delete('song', uri, 'rating')
 

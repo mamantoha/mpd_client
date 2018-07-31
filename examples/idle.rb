@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler'
 Bundler.setup :default
 
@@ -14,7 +16,7 @@ client.connect('localhost', 6600)
 # Lists all changed systems:
 # database, update, stored_playlist, playlist, player, mixer, output, options, sticker, subscription, message
 #
-subsystems = ['player', 'playlist']
+subsystems = %w[player playlist]
 
 loop do
   resp = client.idle(*subsystems)

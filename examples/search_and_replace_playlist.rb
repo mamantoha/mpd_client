@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler'
 Bundler.setup :default
 
@@ -32,7 +34,7 @@ songs = client.search(type, what)
 
 client.command_list_ok_begin # start a command list to speed up operations
 songs.each do |song|
-  client.add(song['file']) if song.has_key?('file')
+  client.add(song['file']) if song.key?('file')
 end
 client.command_list_end
 

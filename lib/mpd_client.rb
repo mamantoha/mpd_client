@@ -1,130 +1,132 @@
+# frozen_string_literal: true
+
 require 'socket'
-require "mpd_client/version"
+require 'mpd_client/version'
 
 module MPD
-  HELLO_PREFIX = "OK MPD "
-  ERROR_PREFIX = "ACK "
-  SUCCESS = "OK"
-  NEXT = "list_OK"
+  HELLO_PREFIX = 'OK MPD '
+  ERROR_PREFIX = 'ACK '
+  SUCCESS = 'OK'
+  NEXT = 'list_OK'
 
   # MPD changelog: http://git.musicpd.org/cgit/master/mpd.git/plain/NEWS
   # http://www.musicpd.org/doc/protocol/command_reference.html
   # http://git.musicpd.org/cgit/cirrus/mpd.git/plain/doc/protocol.xml
   COMMANDS = {
     # Status Commands
-    "clearerror"         => "fetch_nothing",
-    "currentsong"        => "fetch_object",
-    "idle"               => "fetch_list",
-    "noidle"             => "",
-    "status"             => "fetch_object",
-    "stats"              => "fetch_object",
+    'clearerror'         => 'fetch_nothing',
+    'currentsong'        => 'fetch_object',
+    'idle'               => 'fetch_list',
+    'noidle'             => '',
+    'status'             => 'fetch_object',
+    'stats'              => 'fetch_object',
     # Playback Option Commands
-    "consume"            => "fetch_nothing",
-    "crossfade"          => "fetch_nothing",
-    "mixrampdb"          => "fetch_nothing",
-    "mixrampdelay"       => "fetch_nothing",
-    "random"             => "fetch_nothing",
-    "repeat"             => "fetch_nothing",
-    "setvol"             => "fetch_nothing",
-    "single"             => "fetch_nothing",
-    "replay_gain_mode"   => "fetch_nothing",
-    "replay_gain_status" => "fetch_item",
-    "volume"             => "fetch_nothing",
+    'consume'            => 'fetch_nothing',
+    'crossfade'          => 'fetch_nothing',
+    'mixrampdb'          => 'fetch_nothing',
+    'mixrampdelay'       => 'fetch_nothing',
+    'random'             => 'fetch_nothing',
+    'repeat'             => 'fetch_nothing',
+    'setvol'             => 'fetch_nothing',
+    'single'             => 'fetch_nothing',
+    'replay_gain_mode'   => 'fetch_nothing',
+    'replay_gain_status' => 'fetch_item',
+    'volume'             => 'fetch_nothing',
     # Playback Control Commands
-    "next"               => "fetch_nothing",
-    "pause"              => "fetch_nothing",
-    "play"               => "fetch_nothing",
-    "playid"             => "fetch_nothing",
-    "previous"           => "fetch_nothing",
-    "seek"               => "fetch_nothing",
-    "seekid"             => "fetch_nothing",
-    "seekcur"            => "fetch_nothing",
-    "stop"               => "fetch_nothing",
+    'next'               => 'fetch_nothing',
+    'pause'              => 'fetch_nothing',
+    'play'               => 'fetch_nothing',
+    'playid'             => 'fetch_nothing',
+    'previous'           => 'fetch_nothing',
+    'seek'               => 'fetch_nothing',
+    'seekid'             => 'fetch_nothing',
+    'seekcur'            => 'fetch_nothing',
+    'stop'               => 'fetch_nothing',
     # Playlist Commands
-    "add"                => "fetch_nothing",
-    "addid"              => "fetch_item",
-    "addtagid"           => "fetch_nothing",
-    "cleartagid"         => "fetch_nothing",
-    "clear"              => "fetch_nothing",
-    "delete"             => "fetch_nothing",
-    "deleteid"           => "fetch_nothing",
-    "move"               => "fetch_nothing",
-    "moveid"             => "fetch_nothing",
-    "playlist"           => "fetch_playlist",
-    "playlistfind"       => "fetch_songs",
-    "playlistid"         => "fetch_songs",
-    "playlistinfo"       => "fetch_songs",
-    "playlistsearch"     => "fetch_songs",
-    "plchanges"          => "fetch_songs",
-    "plchangesposid"     => "fetch_changes",
-    "prio"               => "fetch_nothing",
-    "prioid"             => "fetch_nothing",
-    "rangeid"            => "fetch_nothing",
-    "shuffle"            => "fetch_nothing",
-    "swap"               => "fetch_nothing",
-    "swapid"             => "fetch_nothing",
+    'add'                => 'fetch_nothing',
+    'addid'              => 'fetch_item',
+    'addtagid'           => 'fetch_nothing',
+    'cleartagid'         => 'fetch_nothing',
+    'clear'              => 'fetch_nothing',
+    'delete'             => 'fetch_nothing',
+    'deleteid'           => 'fetch_nothing',
+    'move'               => 'fetch_nothing',
+    'moveid'             => 'fetch_nothing',
+    'playlist'           => 'fetch_playlist',
+    'playlistfind'       => 'fetch_songs',
+    'playlistid'         => 'fetch_songs',
+    'playlistinfo'       => 'fetch_songs',
+    'playlistsearch'     => 'fetch_songs',
+    'plchanges'          => 'fetch_songs',
+    'plchangesposid'     => 'fetch_changes',
+    'prio'               => 'fetch_nothing',
+    'prioid'             => 'fetch_nothing',
+    'rangeid'            => 'fetch_nothing',
+    'shuffle'            => 'fetch_nothing',
+    'swap'               => 'fetch_nothing',
+    'swapid'             => 'fetch_nothing',
     # Stored Playlist Commands
-    "listplaylist"       => "fetch_list",
-    "listplaylistinfo"   => "fetch_songs",
-    "listplaylists"      => "fetch_playlists",
-    "load"               => "fetch_nothing",
-    "playlistadd"        => "fetch_nothing",
-    "playlistclear"      => "fetch_nothing",
-    "playlistdelete"     => "fetch_nothing",
-    "playlistmove"       => "fetch_nothing",
-    "rename"             => "fetch_nothing",
-    "rm"                 => "fetch_nothing",
-    "save"               => "fetch_nothing",
+    'listplaylist'       => 'fetch_list',
+    'listplaylistinfo'   => 'fetch_songs',
+    'listplaylists'      => 'fetch_playlists',
+    'load'               => 'fetch_nothing',
+    'playlistadd'        => 'fetch_nothing',
+    'playlistclear'      => 'fetch_nothing',
+    'playlistdelete'     => 'fetch_nothing',
+    'playlistmove'       => 'fetch_nothing',
+    'rename'             => 'fetch_nothing',
+    'rm'                 => 'fetch_nothing',
+    'save'               => 'fetch_nothing',
     # Database Commands
-    "count"              => "fetch_object",
-    "find"               => "fetch_songs",
-    "findadd"            => "fetch_nothing",
-    "list"               => "fetch_list",
-    "listall"            => "fetch_database",
-    "listallinfo"        => "fetch_database",
-    "listfiles"          => "fetch_database",
-    "lsinfo"             => "fetch_database",
-    "search"             => "fetch_songs",
-    "searchadd"          => "fetch_nothing",
-    "searchaddp1"        => "fetch_nothing",
-    "update"             => "fetch_item",
-    "rescan"             => "fetch_item",
-    "readcomments"       => "fetch_object",
+    'count'              => 'fetch_object',
+    'find'               => 'fetch_songs',
+    'findadd'            => 'fetch_nothing',
+    'list'               => 'fetch_list',
+    'listall'            => 'fetch_database',
+    'listallinfo'        => 'fetch_database',
+    'listfiles'          => 'fetch_database',
+    'lsinfo'             => 'fetch_database',
+    'search'             => 'fetch_songs',
+    'searchadd'          => 'fetch_nothing',
+    'searchaddp1'        => 'fetch_nothing',
+    'update'             => 'fetch_item',
+    'rescan'             => 'fetch_item',
+    'readcomments'       => 'fetch_object',
     # Mounts and neighbors
-    "mount"              => "fetch_nothing",
-    "unmount"            => "fetch_nothing",
-    "listmounts"         => "fetch_mounts",
-    "listneighbors"      => "fetch_neighbors",
+    'mount'              => 'fetch_nothing',
+    'unmount'            => 'fetch_nothing',
+    'listmounts'         => 'fetch_mounts',
+    'listneighbors'      => 'fetch_neighbors',
     # Sticker Commands
-    "sticker get"        => "fetch_sticker",
-    "sticker set"        => "fetch_nothing",
-    "sticker delete"     => "fetch_nothing",
-    "sticker list"       => "fetch_stickers",
-    "sticker find"       => "fetch_songs",
+    'sticker get'        => 'fetch_sticker',
+    'sticker set'        => 'fetch_nothing',
+    'sticker delete'     => 'fetch_nothing',
+    'sticker list'       => 'fetch_stickers',
+    'sticker find'       => 'fetch_songs',
     # Connection Commands
-    "close"              => "",
-    "kill"               => "",
-    "password"           => "fetch_nothing",
-    "ping"               => "fetch_nothing",
+    'close'              => '',
+    'kill'               => '',
+    'password'           => 'fetch_nothing',
+    'ping'               => 'fetch_nothing',
     # Audio Output Commands
-    "disableoutput"      => "fetch_nothing",
-    "enableoutput"       => "fetch_nothing",
-    "outputs"            => "fetch_outputs",
-    "toggleoutput"       => "fetch_nothing",
+    'disableoutput'      => 'fetch_nothing',
+    'enableoutput'       => 'fetch_nothing',
+    'outputs'            => 'fetch_outputs',
+    'toggleoutput'       => 'fetch_nothing',
     # Reflection Commands
-    "config"             => "fetch_item",
-    "commands"           => "fetch_list",
-    "notcommands"        => "fetch_list",
-    "tagtypes"           => "fetch_list",
-    "urlhandlers"        => "fetch_list",
-    "decoders"           => "fetch_plugins",
+    'config'             => 'fetch_item',
+    'commands'           => 'fetch_list',
+    'notcommands'        => 'fetch_list',
+    'tagtypes'           => 'fetch_list',
+    'urlhandlers'        => 'fetch_list',
+    'decoders'           => 'fetch_plugins',
     # Client To Client
-    "subscribe"          => "fetch_nothing",
-    "unsubscribe"        => "fetch_nothing",
-    "channels"           => "fetch_list",
-    "readmessages"       => "fetch_messages",
-    "sendmessage"        => "fetch_nothing"
-  }
+    'subscribe'          => 'fetch_nothing',
+    'unsubscribe'        => 'fetch_nothing',
+    'channels'           => 'fetch_list',
+    'readmessages'       => 'fetch_messages',
+    'sendmessage'        => 'fetch_nothing'
+  }.freeze
 
   # The `MPD::Client` is used for interactions with a MPD server.
   #
@@ -157,7 +159,7 @@ module MPD
       end
 
       def add_command(name, retval)
-        escaped_name = name.gsub(' ', '_')
+        escaped_name = name.tr(' ', '_')
         define_method escaped_name.to_sym do |*args|
           ensure_connected
 
@@ -184,20 +186,20 @@ module MPD
     end
 
     def reconnect
-      log.info("MPD (re)connect #{@host}, #{@port}") if log
-      if @host.start_with?('/')
-        @socket = UNIXSocket.new(@host)
-        hello
-      else
-        @socket = TCPSocket.new(@host, @port)
-        hello
-      end
+      log&.info("MPD (re)connect #{@host}, #{@port}")
 
+      @socket = if @host.start_with?('/')
+                  UNIXSocket.new(@host)
+                else
+                  TCPSocket.new(@host, @port)
+                end
+
+      hello
       @connected = true
     end
 
     def disconnect
-      log.info("MPD disconnect") if log
+      log&.info('MPD disconnect')
       @socket.close
       reset
     end
@@ -216,13 +218,13 @@ module MPD
 
     # http://www.musicpd.org/doc/protocol/ch01s04.html
     def command_list_ok_begin
-      raise "Already in command list" unless @command_list.nil?
+      raise 'Already in command list' unless @command_list.nil?
       write_command('command_list_ok_begin')
       @command_list = []
     end
 
     def command_list_end
-      raise "Not in command list" if @command_list.nil?
+      raise 'Not in command list' if @command_list.nil?
       write_command('command_list_end')
 
       fetch_command_list
@@ -234,25 +236,21 @@ module MPD
     end
 
     # Sets the +logger+ used by this instance of MPD::Client
-    def log= logger
-      @log = logger
-    end
+    attr_writer :log
 
     private
 
     def ensure_connected
-      unless connected?
-        raise "Please connect to MPD server"
-      end
+      raise 'Please connect to MPD server' unless connected?
     end
 
     def execute(command, *args, retval)
       @mutex.synchronize do
+        write_command(command, *args)
+
         if !@command_list.nil?
-          write_command(command, *args)
           @command_list << retval
         else
-          write_command(command, *args)
           eval retval
         end
       end
@@ -271,20 +269,22 @@ module MPD
     def write_command(command, *args)
       parts = [command]
       args.each do |arg|
-        if arg.kind_of?(Array)
-          parts << (arg.size == 1 ? "\"#{arg[0].to_i}:\"" : "\"#{arg[0].to_i}:#{arg[1].to_i}\"")
-        else
-          parts << "\"#{escape(arg)}\""
-        end
+        line = if arg.is_a?(Array)
+                 arg.size == 1 ? "\"#{arg[0].to_i}:\"" : "\"#{arg[0].to_i}:#{arg[1].to_i}\""
+               else
+                 "\"#{escape(arg)}\""
+               end
+
+        parts << line
       end
-      #log.debug("Calling MPD: #{command}#{args}") if log
-      log.debug("Calling MPD: #{parts.join(' ')}") if log
+      # log.debug("Calling MPD: #{command}#{args}") if log
+      log&.debug("Calling MPD: #{parts.join(' ')}")
       write_line(parts.join(' '))
     end
 
     def read_line
       line = @socket.gets.force_encoding('utf-8')
-      raise "Connection lost while reading line" unless line.end_with?("\n")
+      raise 'Connection lost while reading line' unless line.end_with?("\n")
       line.chomp!
       if line.start_with?(ERROR_PREFIX)
         error = line[/#{ERROR_PREFIX}(.*)/, 1].strip
@@ -339,9 +339,7 @@ module MPD
 
       read_pairs.each do |key, value|
         if key != seen
-          if seen != nil
-            raise "Expected key '#{seen}', got '#{key}'"
-          end
+          raise "Expected key '#{seen}', got '#{key}'" unless seen.nil?
           seen = key
         end
 
@@ -405,7 +403,7 @@ module MPD
     end
 
     def fetch_database
-      fetch_objects(['file', 'directory', 'playlist'])
+      fetch_objects(%w[file directory playlist])
     end
 
     def fetch_playlists
@@ -414,7 +412,7 @@ module MPD
 
     def fetch_playlist
       result = []
-      read_pairs(':').each do |key, value|
+      read_pairs(':').each do |_key, value|
         result << value
       end
 
@@ -423,7 +421,7 @@ module MPD
 
     def fetch_stickers
       result = []
-      read_pairs.each do |key, sticker|
+      read_pairs.each do |_key, sticker|
         value = sticker.split('=', 2)
         raise "Could now parse sticker: #{sticker}" if value.size < 2
         result << Hash[*value]
@@ -451,14 +449,14 @@ module MPD
 
     def hello
       line = @socket.gets
-      raise "Connection lost while reading MPD hello" unless line.end_with?("\n")
+      raise 'Connection lost while reading MPD hello' unless line.end_with?("\n")
       line.chomp!
       raise "Got invalid MPD hello: #{line}" unless line.start_with?(HELLO_PREFIX)
       @mpd_version = line[/#{HELLO_PREFIX}(.*)/, 1]
     end
 
     def escape(text)
-      text.to_s.gsub("\\", "\\\\").gsub('"', '\\"')
+      text.to_s.gsub('\\', '\\\\').gsub('"', '\\"')
     end
   end
 end

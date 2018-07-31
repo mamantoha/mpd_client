@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler'
 Bundler.setup :default
 
@@ -16,7 +18,7 @@ pp "#{song['artist']} - #{song['title']}"
 song_id = song['id']
 
 # Specifies the portion of the song that shall be played
-client.rangeid(song_id, [60,70])
+client.rangeid(song_id, [60, 70])
 
 # Play the playlist at song 1
 client.play(1)
