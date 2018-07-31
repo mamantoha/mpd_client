@@ -5,9 +5,9 @@ require 'pp'
 require 'logger'
 require 'mpd_client'
 
-MPDClient.log = Logger.new($stderr)
+MPD::Client.log = Logger.new($stderr)
 
-client = MPDClient.new
+client = MPD::Client.new
 client.connect('localhost', 6600)
 
 # delete all songs from the current playlist, except for the firts ten

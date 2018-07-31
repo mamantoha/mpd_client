@@ -4,18 +4,18 @@ Bundler.setup :default
 require 'logger'
 require 'mpd_client'
 
-MPDClient.log = Logger.new($stderr)
+MPD::Client.log = Logger.new($stderr)
 
 # Stickers
 # http://www.musicpd.org/doc/protocol/ch03s07.html
 
-client = MPDClient.new
+client = MPD::Client.new
 
 # Connecting to the server
 client.connect('/run/mpd/socket')
 
 puts "MPD version: #{client.mpd_version}"
-puts "mpd_client version: #{MPDClient::VERSION}"
+puts "mpd_client version: #{MPD::Client::VERSION}"
 
 uri = "world/j/Jane Air/2012.Иллюзия полёта/12. Любить любовь.ogg"
 

@@ -1,4 +1,4 @@
-# MPDClient
+# MPD::Client
 
 Yet another Music Player Daemon (MPD) client library written entirely in Ruby.
 `mpd_client` is a Ruby port of the [python-mpd](https://github.com/Mic92/python-mpd2) library.
@@ -24,13 +24,13 @@ $ gem install mpd_client
 ```
 
 ## Usage
-All functionality is contained in the `MPDClient` class. Creating an instance of this class is as simple as:
+All functionality is contained in the `MPD::Client` class. Creating an instance of this class is as simple as:
 
 ```ruby
-client = MPDClient.new
+client = MPD::Client.new
 ```
 
-Once you have an instance of the `MPDClient` class, start by connecting to the server:
+Once you have an instance of the `MPD::Client` class, start by connecting to the server:
 
 ```ruby
 client.connect('localhost', 6600)
@@ -78,24 +78,24 @@ client.delete([10,])
 
 ### Logging
 
-Default logger for all MPDClient instances:
+Default logger for all MPD::Client instances:
 
 ```ruby
 require 'logger'
 require 'mpd_client'
 
-MPDClient.log = Logger.new($stderr)
+MPD::Client.log = Logger.new($stderr)
 
-client = MPDClient.new
+client = MPD::Client.new
 ```
 
-Sets the logger used by this instance of MPDClient:
+Sets the logger used by this instance of MPD::Client:
 
 ```ruby
 require 'logger'
 require 'mpd_client'
 
-client = MPDClient.new
+client = MPD::Client.new
 client.log = Logger.new($stderr)
 ```
 

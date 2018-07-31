@@ -1,3 +1,5 @@
-class MPDClient
-  VERSION = "0.0.6"
+module MPD
+  class Client
+    VERSION = "0.1.0"
+  end
 end

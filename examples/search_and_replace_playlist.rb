@@ -4,21 +4,21 @@ Bundler.setup :default
 require 'logger'
 require 'mpd_client'
 
-# MPDClient.log = Logger.new($stderr)
+# MPD::Client.log = Logger.new($stderr)
 
-client = MPDClient.new
+client = MPD::Client.new
 
 type = ARGV[0]
 what = ARGV[1]
 
-client = MPDClient.new
+client = MPD::Client.new
 client.log = Logger.new($stderr)
 
 # Connecting to the server
 client.connect('localhost', 6600)
 
 puts "MPD version: #{client.mpd_version}"
-puts "mpd_client version: #{MPDClient::VERSION}"
+puts "mpd_client version: #{MPD::Client::VERSION}"
 
 client.stop
 client.clear # clear the current playlist

@@ -12,5 +12,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "mpd_client"
   gem.require_paths = ["lib"]
-  gem.version       = MPDClient::VERSION
+  gem.version       = MPD::Client::VERSION
 end
