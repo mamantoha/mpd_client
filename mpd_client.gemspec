@@ -19,5 +19,4 @@ Gem::Specification.new do |gem|
   gem.version       = MPD::Client::VERSION
 
   gem.add_development_dependency 'bundler', '~> 1.16'
-  gem.add_development_dependency 'rake', '~> 10.0'
 end
