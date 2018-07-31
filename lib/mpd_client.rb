@@ -307,7 +307,7 @@ module MPD
       pair = line.split(separator, 2)
       raise "Could now parse pair: '#{line}'" if pair.size < 2
 
-      pair #Array
+      pair # Array
     end
 
     def read_pairs(separator = ': ')
@@ -336,6 +336,7 @@ module MPD
     def fetch_list
       result = []
       seen = nil
+
       read_pairs.each do |key, value|
         if key != seen
           if seen != nil
@@ -343,6 +344,7 @@ module MPD
           end
           seen = key
         end
+
         result << value
       end
 
