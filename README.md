@@ -1,4 +1,7 @@
-# MPDClient
+# MPD::Client
+
+[![Build Status](https://badgen.net/travis/mamantoha/mpd_client)](https://travis-ci.org/mamantoha/mpd_client)
+[![Gem Version](https://badge.fury.io/rb/mpd_client.svg)](https://badge.fury.io/rb/mpd_client)
 
 Yet another Music Player Daemon (MPD) client library written entirely in Ruby.
 `mpd_client` is a Ruby port of the [python-mpd](https://github.com/Mic92/python-mpd2) library.
@@ -13,24 +16,25 @@ gem 'mpd_client'
 
 And then execute:
 
-```
-$ bundle
+```console
+bundle
 ```
 
 Or install it yourself as:
 
-```
-$ gem install mpd_client
+```console
+gem install mpd_client
 ```
 
 ## Usage
-All functionality is contained in the `MPDClient` class. Creating an instance of this class is as simple as:
+
+All functionality is contained in the `MPD::Client` class. Creating an instance of this class is as simple as:
 
 ```ruby
-client = MPDClient.new
+client = MPD::Client.new
 ```
 
-Once you have an instance of the `MPDClient` class, start by connecting to the server:
+Once you have an instance of the `MPD::Client` class, start by connecting to the server:
 
 ```ruby
 client.connect('localhost', 6600)
@@ -78,28 +82,28 @@ client.delete([10,])
 
 ### Logging
 
-Default logger for all MPDClient instances:
+Default logger for all MPD::Client instances:
 
 ```ruby
 require 'logger'
 require 'mpd_client'
 
-MPDClient.log = Logger.new($stderr)
+MPD::Client.log = Logger.new($stderr)
 
-client = MPDClient.new
+client = MPD::Client.new
 ```
 
-Sets the logger used by this instance of MPDClient:
+Sets the logger used by this instance of MPD::Client:
 
 ```ruby
 require 'logger'
 require 'mpd_client'
 
-client = MPDClient.new
+client = MPD::Client.new
 client.log = Logger.new($stderr)
 ```
 
-For more information about logging configuration, see http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html
+For more information about logging configuration, see [Logger](https://ruby-doc.org/stdlib-2.5.1/libdoc/logger/rdoc/Logger.html)
 
 ## Development
 
@@ -117,6 +121,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## License and Author
 
-Copyright (c) 2013-2017 by Anton Maminov
+Copyright (c) 2013-2018 by Anton Maminov
 
 This library is distributed under the MIT license.  Please see the LICENSE file.

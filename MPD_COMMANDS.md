@@ -1,3 +1,5 @@
+# MPD Commands
+
 * [Status Commands](#status-commands)
 * [Playback Option Commands](#playback-option-commands)
 * [Playback Control Commands](#playback-control-commands)
@@ -10,7 +12,7 @@
 * [Reflection Commands](#reflection-commands)
 * [Client to client](#client-to-client)
 
-### Status Commands ###
+## Status Commands
 
 ---
 `clearerror => fetch_nothing`
@@ -27,7 +29,7 @@
 
 > Waits until there is a noteworthy change in one or more of MPD's subsystems. As soon as there is one, it lists all changed systems in a line in the format changed: `SUBSYSTEM`, where `SUBSYSTEM` is one of the following:
 
-> * `database`: the song database has been modified after update.
+* `database`: the song database has been modified after update.
 * `update`: a database update has started or finished. If the database was modified during the update, the database event is also emitted.
 * `stored_playlist`: a stored playlist has been modified, renamed, created or deleted
 * `playlist`: the current playlist has been modified
@@ -39,21 +41,19 @@
 * `subscription`: a client has subscribed or unsubscribed to a channel
 * `message`: a message was received on a channel this client is subscribed to; this event is only emitted when the queue is empty
 
-> While a client is waiting for `idle` results, the server disables timeouts, allowing a client to wait for events as long as mpd runs. The `idle` command can be canceled by sending the command `noidle` (no other commands are allowed). MPD will then leave `idle` mode and print results immediately; might be empty at this time.
+While a client is waiting for `idle` results, the server disables timeouts, allowing a client to wait for events as long as mpd runs. The `idle` command can be canceled by sending the command `noidle` (no other commands are allowed). MPD will then leave `idle` mode and print results immediately; might be empty at this time.
 
-> If the optional `SUBSYSTEMS` argument is used, MPD will only send notifications when something changed in one of the specified subsytems.
+If the optional `SUBSYSTEMS` argument is used, MPD will only send notifications when something changed in one of the specified subsytems.
 
 ---
 `noidle`
-
->
 
 ---
 `status => "fetch_object`
 
 > Reports the current status of the player and the volume level.
 
-> * `volume`: 0-100
+* `volume`: 0-100
 * `repeat`: 0 or 1
 * `random`: 0 or 1
 * `single`: 0 or 1
@@ -80,14 +80,14 @@
 
 > Displays statistics.
 
-> * `artists`: number of artists
+* `artists`: number of artists
 * `songs`: number of albums
 * `uptime`: daemon uptime in seconds
 * `db_playtime`: sum of all song times in the db
 * `db_update`: last db update in UNIX time
 * `playtime`: time length of music played
 
-### Playback Option Commands ###
+## Playback Option Commands
 
 ---
 `consume {STATE} => fetch_nothing`
@@ -102,7 +102,7 @@
 ---
 `mixrampdb {deciBels} => fetch_nothing`
 
-> Sets the threshold at which songs will be overlapped. Like crossfading but doesn't fade the track volume, just overlaps. The songs need to have MixRamp tags added by an external tool. 0dB is the normalized maximum volume so use negative values, I prefer -17dB. In the absence of mixramp tags crossfading will be used. See http://sourceforge.net/projects/mixramp
+> Sets the threshold at which songs will be overlapped. Like crossfading but doesn't fade the track volume, just overlaps. The songs need to have MixRamp tags added by an external tool. 0dB is the normalized maximum volume so use negative values, I prefer -17dB. In the absence of mixramp tags crossfading will be used. See [mixramp](https://sourceforge.net/projects/mixramp/)
 
 ---
 `mixrampdelay {SECONDS} => fetch_nothing`
@@ -134,9 +134,9 @@
 
 > Sets the replay gain mode. One of `off`, `track`, `album`, `auto`.
 
-> Changing the mode during playback may take several seconds, because the new settings does not affect the buffered data.
+Changing the mode during playback may take several seconds, because the new settings does not affect the buffered data.
 
-> This command triggers the options idle event.
+This command triggers the options idle event.
 
 ---
 `replay_gain_status => fetch_item`
@@ -148,7 +148,7 @@
 
 > Changes volume by amount `CHANGE`.
 
-### Playback Control Commands ###
+## Playback Control Commands
 
 ---
 `next => fetch_nothing`
@@ -196,8 +196,7 @@
 
 > Stops playing.
 
-
-### Playlist Commands ###
+## Playlist Commands
 
 ---
 `add {URI} => fetch_nothing`
@@ -209,7 +208,7 @@
 
 > Adds a song to the playlist (non-recursive) and returns the song id.
 
-> `URI` is always a single file or URL.
+`URI` is always a single file or URL.
 
 ---
 `clear => fetch_nothing`
@@ -240,7 +239,6 @@
 `playlist => fetch_playlist`
 
 > Displays the current playlist.
-
 > > **Note**: Do not use this, instead use `playlistinfo`.
 
 ---
@@ -268,21 +266,21 @@
 
 > Displays changed songs currently in the playlist since `VERSION`.
 
-> To detect songs that were deleted at the end of the playlist, use `playlistlength` returned by status command.
+To detect songs that were deleted at the end of the playlist, use `playlistlength` returned by status command.
 
 ---
 `plchangesposid {VERSION} => fetch_changes`
 
 > Displays changed songs currently in the playlist since `VERSION`. This function only returns the position and the id of the changed song, not the complete metadata. This is more bandwidth efficient.
 
-> To detect songs that were deleted at the end of the playlist, use `playlistlength` returned by status command.
+To detect songs that were deleted at the end of the playlist, use `playlistlength` returned by status command.
 
 ---
 `prio {PRIORITY} {START:END...} => fetch_nothing`
 
 > Set the priority of the specified songs. A higher priority means that it will be played first when "random" mode is enabled.
 
-> A priority is an integer between 0 and 255. The default priority of new songs is 0.
+A priority is an integer between 0 and 255. The default priority of new songs is 0.
 
 ---
 `prioid {PRIORITY} {ID...} => fetch_nothing`
@@ -319,7 +317,7 @@
 
 > Removes `TAG` from the specified `SONGID`. If `TAG` is not specified, then all tag values will be removed. Editing song tags is only possible for remote songs.
 
-### Stored Playlist Commands ###
+## Stored Playlist Commands
 
 Playlists are stored inside the configured playlist directory. They are addressed with their file name (without the directory and without the .m3u suffix).
 
@@ -340,7 +338,7 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Prints a list of the playlist directory.
 
-> After each playlist name the server sends its last modification time as attribute "Last-Modified" in ISO 8601 format. To avoid problems due to clock differences between clients and the server, clients should not compare this value with their local clock.
+After each playlist name the server sends its last modification time as attribute "Last-Modified" in ISO 8601 format. To avoid problems due to clock differences between clients and the server, clients should not compare this value with their local clock.
 
 ---
 `load {NAME} [START:END] => fetch_nothing`
@@ -352,7 +350,7 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Adds `URI` to the playlist `NAME.m3u`.
 
-> `NAME.m3u` will be created if it does not exist.
+`NAME.m3u` will be created if it does not exist.
 
 ---
 `playlistclear {NAME} => fetch_nothing`
@@ -384,7 +382,7 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Saves the current playlist to `NAME.m3u` in the playlist directory.
 
-### Database Commands ###
+## Database Commands
 
 ---
 `count {TAG} {NEEDLE} => fetch_object`
@@ -406,7 +404,7 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Lists all tags of the specified type. `TYPE` can be any tag supported by MPD or file.
 
-> `ARTIST` is an optional parameter when type is album, this specifies to list albums by an artist.
+`ARTIST` is an optional parameter when type is album, this specifies to list albums by an artist.
 
 ---
 `listall [URI] => fetch_database`
@@ -423,14 +421,14 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Lists the contents of the directory `URI`, including files are not recognized by `MPD`. `URI` can be a path relative to the music directory or an `URI` understood by one of the storage plugins. The response contains at least one line for each directory entry with the prefix `"file: "` or  `"directory: "`, and may be followed by file attributes such as `"Last-Modified"` and `"size"`.
 
-> For example, `smb://SERVER` returns a list of all shares on the given SMB/CIFS server; `nfs://servername/path` obtains a directory listing from the NFS server.
+For example, `smb://SERVER` returns a list of all shares on the given SMB/CIFS server; `nfs://servername/path` obtains a directory listing from the NFS server.
 
 ---
 `lsinfo [URI] => fetch_database`
 
 > Lists the contents of the directory `URI`.
 
-> When listing the root directory, this currently returns the list of stored playlists. This behavior is deprecated; use `listplaylists` instead.
+When listing the root directory, this currently returns the list of stored playlists. This behavior is deprecated; use `listplaylists` instead.
 
 > Clients that are connected via UNIX domain socket may use this command to read the tags of an arbitrary local file (`URI` beginning with "file:///").
 
@@ -444,25 +442,25 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Searches for any song that contains `WHAT` in tag `TYPE` and adds them to current playlist.
 
-> Parameters have the same meaning as for `find`, except that search is not case sensitive.
+Parameters have the same meaning as for `find`, except that search is not case sensitive.
 
 ---
 `searchaddpl {NAME} {TYPE} {WHAT} [...] => fetch_nothing`
 
 > Searches for any song that contains `WHAT` in tag `TYPE` and adds them to the playlist named `NAME`.
 
-> If a playlist by that name doesn't exist it is created.
+If a playlist by that name doesn't exist it is created.
 
-> Parameters have the same meaning as for find, except that search is not case sensitive.
+Parameters have the same meaning as for find, except that search is not case sensitive.
 
 ---
 `update [URI] => fetch_item`
 
 > Updates the music database: find new files, remove deleted files, update modified files.
 
-> `URI` is a particular directory or song/file to update. If you do not specify it, everything is updated.
+`URI` is a particular directory or song/file to update. If you do not specify it, everything is updated.
 
-> Prints "updating_db: JOBID" where JOBID is a positive number identifying the update job. You can read the current job id in the status response.
+Prints "updating_db: JOBID" where JOBID is a positive number identifying the update job. You can read the current job id in the status response.
 
 ---
 `rescan [URI] => fetch_item`
@@ -474,11 +472,11 @@ Some of the commands described in this section can be used to run playlist plugi
 
 > Read "comments" (i.e. key-value pairs) from the file specified by `URI`. This `URI` can be a path relative to the music directory or a URL in the form `file:///foo/bar.ogg`.
 
-> The response consists of lines in the form "KEY: VALUE". Comments with suspicious characters (e.g. newlines) are ignored silently.
+The response consists of lines in the form "KEY: VALUE". Comments with suspicious characters (e.g. newlines) are ignored silently.
 
-> The meaning of these depends on the codec, and not all decoder plugins support it.  For example, on Ogg files, this lists the Vorbis comments.
+The meaning of these depends on the codec, and not all decoder plugins support it.  For example, on Ogg files, this lists the Vorbis comments.
 
-### Mounts and neighbors ###
+## Mounts and neighbors
 
 A "storage" provides access to files in the directory tree. The most basic storage plugin is a "local" storage plugin which accesses the local file system, and there are plugins to access NFS and SMB servers.
 
@@ -504,7 +502,7 @@ Multiple storages can be "mounted" together, similar to the `mount` command on m
 
 > Queries a list of "neighbors" (e.g. accessible file servers on the local net).  Items on that list may be used with the `mount` command.
 
-### Sticker Commands ###
+## Sticker Commands
 
 "Stickers" are pieces of information attached to existing MPD objects (e.g. song files, directories, albums). Clients can create arbitrary name/value pairs. MPD itself does not assume any special meaning in them.
 
@@ -539,7 +537,7 @@ Objects which may have stickers are addressed by their object type ("song" for s
 
 > Searches the sticker database for stickers with the specified name, below the specified directory (`URI`). For each matching song, it prints the URI and that one sticker's value.
 
-### Connection Commands ###
+## Connection Commands
 
 ---
 `close`
@@ -583,20 +581,18 @@ Objects which may have stickers are addressed by their object type ("song" for s
 
 > Turns an output on or off, depending on the current state.
 
-
-### Reflection Commands ###
+## Reflection Commands
 
 ---
 `config => fetch_item`
 
 > Dumps configuration values that may be interesting for the client. This command is only permitted to "local" clients (connected via UNIX domain socket).
 
-> The following response attributes are available:
+The following response attributes are available:
 
->
-| Name 	             | Description                              |
-| ------------------ | ---------------------------------------- |
-| music_directory    | The absolute path of the music directory |
+| Name | Description |
+| --- | --- |
+| music_directory | The absolute path of the music directory |
 
 ---
 `commands => fetch_list`
@@ -623,7 +619,7 @@ Objects which may have stickers are addressed by their object type ("song" for s
 
 > Print a list of decoder plugins, followed by their supported suffixes and MIME types.
 
-### Client to client ###
+## Client to client
 
 Clients can communicate with each others over "channels". A channel is created by a client subscribing to it. More than one client can be subscribed to a channel at a time; all of them will receive the messages which get sent to it.
 

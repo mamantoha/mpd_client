@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler'
 Bundler.setup :default
 
@@ -5,9 +7,9 @@ require 'pp'
 require 'logger'
 require 'mpd_client'
 
-MPDClient.log = Logger.new($stderr)
+MPD::Client.log = Logger.new($stderr)
 
-client = MPDClient.new
+client = MPD::Client.new
 client.connect('localhost', 6600)
 
 # Get id of the first song in the playllist
@@ -16,7 +18,7 @@ pp "#{song['artist']} - #{song['title']}"
 song_id = song['id']
 
 # Specifies the portion of the song that shall be played
-client.rangeid(song_id, [60,70])
+client.rangeid(song_id, [60, 70])
 
 # Play the playlist at song 1
 client.play(1)
