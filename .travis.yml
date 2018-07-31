@@ -1,3 +1,4 @@
 language: ruby
-scripts:
+script:
+  - rspec
   - rubocop
