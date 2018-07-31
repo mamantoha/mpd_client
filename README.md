@@ -3,7 +3,6 @@
 [![Build Status](https://img.shields.io/travis/mamantoha/mpd_client.svg?style=flat)](https://travis-ci.org/mamantoha/mpd_client)
 [![Gem Version](https://img.shields.io/gem/v/mpd_client.svg?style=flat)](http://rubygems.org/gems/mpd_client)
 
-
 Yet another Music Player Daemon (MPD) client library written entirely in Ruby.
 `mpd_client` is a Ruby port of the [python-mpd](https://github.com/Mic92/python-mpd2) library.
 
