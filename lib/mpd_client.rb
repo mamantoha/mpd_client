@@ -432,7 +432,9 @@ module MPD
       result
     end
 
-    def fetch_sticker; fetch_stickers[0]; end
+    def fetch_sticker
+      fetch_stickers[0]
+    end
 
     def fetch_command_list
       result = []
