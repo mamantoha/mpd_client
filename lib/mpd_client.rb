@@ -216,7 +216,7 @@ module MPD
       @connected
     end
 
-    # http://www.musicpd.org/doc/protocol/ch01s04.html
+    # https://www.musicpd.org/doc/protocol/command_lists.html
     def command_list_ok_begin
       raise 'Already in command list' unless @command_list.nil?
       write_command('command_list_ok_begin')
