@@ -1,4 +1,7 @@
-Metrics/LineLength:
+AllCops:
+  NewCops: enable
+
+Layout/LineLength:
   Max: 120
 
 Metrics/AbcSize:

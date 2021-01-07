@@ -251,10 +251,10 @@ module MPD
       @mutex.synchronize do
         write_command(command, *args)
 
-        if !@command_list.nil?
-          @command_list << retval
-        else
+        if @command_list.nil?
           eval retval
+        else
+          @command_list << retval
         end
       end
     end
