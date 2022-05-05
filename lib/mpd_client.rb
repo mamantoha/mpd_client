@@ -161,6 +161,7 @@ module MPD
 
       def add_command(name, retval)
         escaped_name = name.tr(' ', '_')
+
         define_method escaped_name.to_sym do |*args|
           ensure_connected
 
@@ -190,11 +191,12 @@ module MPD
     def reconnect
       log&.info("MPD (re)connect #{@host}, #{@port}")
 
-      @socket = if @host.start_with?('/')
-                  UNIXSocket.new(@host)
-                else
-                  TCPSocket.new(@host, @port)
-                end
+      @socket =
+        if @host.start_with?('/')
+          UNIXSocket.new(@host)
+        else
+          TCPSocket.new(@host, @port)
+        end
 
       hello
       @connected = true
@@ -223,6 +225,7 @@ module MPD
       raise 'Already in command list' unless @command_list.nil?
 
       write_command('command_list_ok_begin')
+
       @command_list = []
     end
 
@@ -271,20 +274,24 @@ module MPD
         reconnect
         @socket.puts line
       end
+
       @socket.flush
     end
 
     def write_command(command, *args)
       parts = [command]
+
       args.each do |arg|
-        line = if arg.is_a?(Array)
-                 arg.size == 1 ? "\"#{arg[0].to_i}:\"" : "\"#{arg[0].to_i}:#{arg[1].to_i}\""
-               else
-                 "\"#{escape(arg)}\""
-               end
+        line =
+          if arg.is_a?(Array)
+            arg.size == 1 ? "\"#{arg[0].to_i}:\"" : "\"#{arg[0].to_i}:#{arg[1].to_i}\""
+          else
+            "\"#{escape(arg)}\""
+          end
 
         parts << line
       end
+
       # log.debug("Calling MPD: #{command}#{args}") if log
       log&.debug("Calling MPD: #{parts.join(' ')}")
       write_line(parts.join(' '))
@@ -312,6 +319,7 @@ module MPD
 
     def read_pair(separator)
       line = read_line
+
       return if line.nil?
 
       line.split(separator, 2)
@@ -319,7 +327,9 @@ module MPD
 
     def read_pairs(separator = ': ')
       result = []
+
       pair = read_pair(separator)
+
       while pair
         result << pair
         pair = read_pair(separator)
@@ -330,6 +340,7 @@ module MPD
 
     def fetch_item
       pairs = read_pairs
+
       return nil if pairs.size != 1
 
       pairs[0][1]
@@ -337,6 +348,7 @@ module MPD
 
     def fetch_nothing
       line = read_line
+
       raise "Got unexpected value: #{line}" unless line.nil?
     end
 
@@ -461,6 +473,7 @@ module MPD
 
     def fetch_playlist
       result = []
+
       read_pairs(':').each do |_key, value|
         value = value.chomp.force_encoding('utf-8')
         result << value
@@ -471,6 +484,7 @@ module MPD
 
     def fetch_stickers
       result = []
+
       read_pairs.each do |_key, sticker|
         value = sticker.split('=', 2)
         raise "Could now parse sticker: #{sticker}" if value.size < 2
@@ -487,6 +501,7 @@ module MPD
 
     def fetch_command_list
       result = []
+
       begin
         @command_list.each do |retval|
           result << (eval retval)
@@ -500,9 +515,11 @@ module MPD
 
     def hello
       line = @socket.gets
+
       raise 'Connection lost while reading MPD hello' unless line.end_with?("\n")
 
       line.chomp!
+
       raise "Got invalid MPD hello: #{line}" unless line.start_with?(HELLO_PREFIX)
 
       @mpd_version = line[/#{HELLO_PREFIX}(.*)/, 1]
