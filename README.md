@@ -121,6 +121,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## License and Author
 
-Copyright (c) 2013-2018 by Anton Maminov
+Copyright (c) 2012-2022 by Anton Maminov
 
 This library is distributed under the MIT license.  Please see the LICENSE file.
