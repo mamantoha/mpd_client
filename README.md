@@ -31,6 +31,8 @@ gem install mpd_client
 All functionality is contained in the `MPD::Client` class. Creating an instance of this class is as simple as:
 
 ```ruby
+require 'mpd_client'
+
 client = MPD::Client.new
 ```
 
@@ -63,6 +65,26 @@ client.update                # insert the update command into the list
 client.status                # insert the status command into the list
 client.command_list_end      # result will be a Array with the results
 ```
+
+### Binary responses
+
+Some commands can return binary data.
+
+```ruby
+require 'mpd_client'
+
+client = MPD::Client.new
+client.connect('localhost', 6600)
+
+if (current_song = client.currentsong)
+  data, io = client.albumart(current_song['file'])
+  io # StringIO
+  data # => {"size"=>"322860", "binary"=>"3372"}
+  File.write('cover.jpg', io.string)
+end
+```
+
+The above will locate album art for the current song and save image to `cover.jpg` file.
 
 ### Ranges
 
