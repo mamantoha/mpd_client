@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 require 'socket'
+require 'stringio'
 require 'mpd_client/version'
 
 module MPD
   HELLO_PREFIX = 'OK MPD '
   ERROR_PREFIX = 'ACK '
-  SUCCESS = 'OK'
-  NEXT = 'list_OK'
+  SUCCESS = "OK\n"
+  NEXT = "list_OK\n"
 
   # MPD changelog: http://git.musicpd.org/cgit/master/mpd.git/plain/NEWS
   # http://www.musicpd.org/doc/protocol/command_reference.html
@@ -241,6 +242,10 @@ module MPD
     # Sets the +logger+ used by this instance of MPD::Client
     attr_writer :log
 
+    def albumart(uri)
+      fetch_binary(StringIO.new, 0, 'albumart', uri)
+    end
+
     private
 
     def ensure_connected
@@ -286,10 +291,10 @@ module MPD
     end
 
     def read_line
-      line = @socket.gets.force_encoding('utf-8')
+      line = @socket.gets
+
       raise 'Connection lost while reading line' unless line.end_with?("\n")
 
-      line.chomp!
       if line.start_with?(ERROR_PREFIX)
         error = line[/#{ERROR_PREFIX}(.*)/, 1].strip
         raise error
@@ -309,10 +314,7 @@ module MPD
       line = read_line
       return if line.nil?
 
-      pair = line.split(separator, 2)
-      raise "Could now parse pair: '#{line}'" if pair.size < 2
-
-      pair # Array
+      line.split(separator, 2)
     end
 
     def read_pairs(separator = ': ')
@@ -343,6 +345,8 @@ module MPD
       seen = nil
 
       read_pairs.each do |key, value|
+        value = value.chomp.force_encoding('utf-8')
+
         if key != seen
           raise "Expected key '#{seen}', got '#{key}'" unless seen.nil?
 
@@ -358,14 +362,18 @@ module MPD
     def fetch_objects(delimeters = [])
       result = []
       obj = {}
+
       read_pairs.each do |key, value|
         key = key.downcase
+        value = value.chomp.force_encoding('utf-8')
+
         if delimeters.include?(key)
           result << obj unless obj.empty?
           obj = {}
         elsif obj.include?(key)
           obj[key] << value
         end
+
         obj[key] = value
       end
 
@@ -378,6 +386,41 @@ module MPD
       objs = fetch_objects
 
       objs ? objs[0] : {}
+    end
+
+    def fetch_binary(io = StringIO.new, offset = 0, *args)
+      data = {}
+
+      @mutex.synchronize do
+        write_command(*args, offset)
+
+        binary = false
+
+        read_pairs.each do |item|
+          if binary
+            io << item.join(': ')
+            next
+          end
+
+          key = item[0]
+          value = item[1].chomp
+
+          binary = (key == 'binary')
+
+          data[key] = value
+        end
+      end
+
+      size = data['size'].to_i
+      binary = data['binary'].to_i
+
+      next_offset = offset + binary
+
+      return [data, io] if next_offset >= size
+
+      io.seek(-1, IO::SEEK_CUR)
+
+      fetch_binary(io, next_offset, *args)
     end
 
     def fetch_changes
@@ -419,6 +462,7 @@ module MPD
     def fetch_playlist
       result = []
       read_pairs(':').each do |_key, value|
+        value = value.chomp.force_encoding('utf-8')
         result << value
       end
 
