@@ -21,4 +21,5 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
 
   gem.add_development_dependency 'bundler'
+  gem.metadata['rubygems_mfa_required'] = 'true'
 end
