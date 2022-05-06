@@ -11,4 +11,7 @@ MPD::Client.log = Logger.new($stderr)
 client = MPD::Client.new
 client.connect('localhost', 6600)
 
+puts client.stats
+puts client.status
 puts client.currentsong
+puts client.playlistinfo
