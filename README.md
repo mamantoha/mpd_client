@@ -125,7 +125,7 @@ client = MPD::Client.new
 client.log = Logger.new($stderr)
 ```
 
-For more information about logging configuration, see [Logger](https://ruby-doc.org/stdlib-2.5.1/libdoc/logger/rdoc/Logger.html)
+For more information about logging configuration, see [Logger](https://ruby-doc.org/stdlib/libdoc/logger/rdoc/Logger.html)
 
 ## Development
 

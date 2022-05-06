@@ -102,7 +102,7 @@ If the optional `SUBSYSTEMS` argument is used, MPD will only send notifications 
 ---
 `mixrampdb {deciBels} => fetch_nothing`
 
-> Sets the threshold at which songs will be overlapped. Like crossfading but doesn't fade the track volume, just overlaps. The songs need to have MixRamp tags added by an external tool. 0dB is the normalized maximum volume so use negative values, I prefer -17dB. In the absence of mixramp tags crossfading will be used. See [mixramp](https://sourceforge.net/projects/mixramp/)
+> Sets the threshold at which songs will be overlapped. Like crossfading but doesn't fade the track volume, just overlaps. The songs need to have MixRamp tags added by an external tool. 0dB is the normalized maximum volume so use negative values, I prefer -17dB. In the absence of mixramp tags crossfading will be used. See [mixramp](https://mpd.readthedocs.io/en/latest/user.html?highlight=mixramp#mixramp)
 
 ---
 `mixrampdelay {SECONDS} => fetch_nothing`

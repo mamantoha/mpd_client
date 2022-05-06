@@ -10,9 +10,8 @@ module MPD
   SUCCESS = "OK\n"
   NEXT = "list_OK\n"
 
-  # MPD changelog: http://git.musicpd.org/cgit/master/mpd.git/plain/NEWS
-  # http://www.musicpd.org/doc/protocol/command_reference.html
-  # http://git.musicpd.org/cgit/cirrus/mpd.git/plain/doc/protocol.xml
+  # MPD changelog: https://github.com/MusicPlayerDaemon/MPD/blob/master/NEWS
+  # Protocol: https://mpd.readthedocs.io/en/latest/protocol.html
   COMMANDS = {
     # Status Commands
     'clearerror' => 'fetch_nothing',
