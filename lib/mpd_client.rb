@@ -53,7 +53,6 @@ module MPD
     'deleteid' => 'fetch_nothing',
     'move' => 'fetch_nothing',
     'moveid' => 'fetch_nothing',
-    'playlist' => 'fetch_playlist',
     'playlistfind' => 'fetch_songs',
     'playlistid' => 'fetch_songs',
     'playlistinfo' => 'fetch_songs',
@@ -321,22 +320,22 @@ module MPD
       line
     end
 
-    def read_pair(separator)
+    def read_pair
       line = read_line
 
       return if line.nil?
 
-      line.split(separator, 2)
+      line.split(': ', 2)
     end
 
-    def read_pairs(separator = ': ')
+    def read_pairs
       result = []
 
-      pair = read_pair(separator)
+      pair = read_pair
 
       while pair
         result << pair
-        pair = read_pair(separator)
+        pair = read_pair
       end
 
       result
@@ -473,17 +472,6 @@ module MPD
 
     def fetch_playlists
       fetch_objects(['playlist'])
-    end
-
-    def fetch_playlist
-      result = []
-
-      read_pairs(':').each do |_key, value|
-        value = value.chomp.force_encoding('utf-8')
-        result << value
-      end
-
-      result
     end
 
     def fetch_stickers
