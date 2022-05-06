@@ -12,7 +12,7 @@ client = MPD::Client.new
 client.connect('localhost', 6600)
 
 if (current_song = client.currentsong)
-  data, io = client.albumart(current_song['file'])
+  data, io = client.readpicture(current_song['file'])
   puts data
   File.write('cover.jpg', io.string)
 end

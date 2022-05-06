@@ -249,6 +249,10 @@ module MPD
       fetch_binary(StringIO.new, 0, 'albumart', uri)
     end
 
+    def readpicture(uri)
+      fetch_binary(StringIO.new, 0, 'readpicture', uri)
+    end
+
     private
 
     def ensure_connected
