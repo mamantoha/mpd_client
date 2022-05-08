@@ -1,5 +1,12 @@
 # MPD::Client CHANGELOG
 
+## 0.2.0
+
+* Tested with Ruby 3.1
+* Add `albumart` command
+* Add `readpicture` command
+* Remove `playlist` command. Use `playlistinfo` instead
+
 ## 0.1.0
 
 * Rename `MPDClient` to `MPD::Client`

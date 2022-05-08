@@ -31,6 +31,8 @@ gem install mpd_client
 All functionality is contained in the `MPD::Client` class. Creating an instance of this class is as simple as:
 
 ```ruby
+require 'mpd_client'
+
 client = MPD::Client.new
 ```
 
@@ -63,6 +65,26 @@ client.update                # insert the update command into the list
 client.status                # insert the status command into the list
 client.command_list_end      # result will be a Array with the results
 ```
+
+### Binary responses
+
+Some commands can return binary data.
+
+```ruby
+require 'mpd_client'
+
+client = MPD::Client.new
+client.connect('localhost', 6600)
+
+if (current_song = client.currentsong)
+  data, io = client.readpicture(current_song['file'])
+  io # StringIO
+  data # => {"size"=>"322860", "type"=>"image/jpeg", "binary"=>"3372"}
+  File.write('cover.jpg', io.string)
+end
+```
+
+The above will locate album art for the current song and save image to `cover.jpg` file.
 
 ### Ranges
 
@@ -103,7 +125,7 @@ client = MPD::Client.new
 client.log = Logger.new($stderr)
 ```
 
-For more information about logging configuration, see [Logger](https://ruby-doc.org/stdlib-2.5.1/libdoc/logger/rdoc/Logger.html)
+For more information about logging configuration, see [Logger](https://ruby-doc.org/stdlib/libdoc/logger/rdoc/Logger.html)
 
 ## Development
 
@@ -121,6 +143,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## License and Author
 
-Copyright (c) 2013-2018 by Anton Maminov
+Copyright (c) 2012-2022 by Anton Maminov
 
 This library is distributed under the MIT license.  Please see the LICENSE file.

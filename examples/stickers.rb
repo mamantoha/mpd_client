@@ -9,7 +9,7 @@ require 'mpd_client'
 MPD::Client.log = Logger.new($stderr)
 
 # Stickers
-# http://www.musicpd.org/doc/protocol/ch03s07.html
+# https://mpd.readthedocs.io/en/latest/protocol.html#stickers
 
 client = MPD::Client.new
 
