@@ -1,4 +1,5 @@
 AllCops:
+  TargetRubyVersion: 3.2
   NewCops: enable
 
 Layout/LineLength:
@@ -26,5 +27,3 @@ Metrics/PerceivedComplexity:
 Security/Eval:
   Exclude:
     - 'lib/mpd_client.rb'
-
-

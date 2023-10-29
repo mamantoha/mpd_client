@@ -3,7 +3,6 @@
 require 'bundler'
 Bundler.setup :default
 
-require 'pp'
 require 'logger'
 require 'mpd_client'
 

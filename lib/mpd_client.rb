@@ -257,9 +257,9 @@ module MPD
       raise 'Please connect to MPD server' unless connected?
     end
 
-    def execute(command, *args, retval)
+    def execute(command, *, retval)
       @mutex.synchronize do
-        write_command(command, *args)
+        write_command(command, *)
 
         if @command_list.nil?
           eval retval
@@ -294,7 +294,6 @@ module MPD
         parts << line
       end
 
-      # log.debug("Calling MPD: #{command}#{args}") if log
       log&.debug("Calling MPD: #{parts.join(' ')}")
       write_line(parts.join(' '))
     end
@@ -402,11 +401,11 @@ module MPD
       objs ? objs[0] : {}
     end
 
-    def fetch_binary(io = StringIO.new, offset = 0, *args)
+    def fetch_binary(io = StringIO.new, offset = 0, *)
       data = {}
 
       @mutex.synchronize do
-        write_command(*args, offset)
+        write_command(*, offset)
 
         binary = false
 
@@ -434,7 +433,7 @@ module MPD
 
       io.seek(-1, IO::SEEK_CUR)
 
-      fetch_binary(io, next_offset, *args)
+      fetch_binary(io, next_offset, *)
     end
 
     def fetch_changes
