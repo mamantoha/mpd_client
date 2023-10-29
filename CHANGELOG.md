@@ -1,5 +1,9 @@
 # MPD::Client CHANGELOG
 
+## 0.3.0
+
+* Require Ruby >= 3.2
+
 ## 0.2.0
 
 * Tested with Ruby 3.1
