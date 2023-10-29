@@ -2,47 +2,47 @@
 
 ## 0.3.0
 
-* Require Ruby >= 3.2
+- Require Ruby >= 3.2
 
 ## 0.2.0
 
-* Tested with Ruby 3.1
-* Add `albumart` command
-* Add `readpicture` command
-* Remove `playlist` command. Use `playlistinfo` instead
+- Tested with Ruby 3.1
+- Add `albumart` command
+- Add `readpicture` command
+- Remove `playlist` command. Use `playlistinfo` instead
 
 ## 0.1.0
 
-* Rename `MPDClient` to `MPD::Client`
+- Rename `MPDClient` to `MPD::Client`
 
 ## 0.0.6
 
-* Fixed readcomments command
+- Fixed readcomments command
 
 ## 0.0.5
 
-* Support for mount, umount, listmounts, listneighbors
-* Support for listfiles
-* Support for rangeid, addtagid, cleartagid
+- Support for mount, umount, listmounts, listneighbors
+- Support for listfiles
+- Support for rangeid, addtagid, cleartagid
 
 ## 0.0.4
 
-* Added support for readcomments, toggleoutput, volume
-* Added a mutex protecting execution of MPD commands
-* Automatic reconnect after the server dropped the connection
+- Added support for readcomments, toggleoutput, volume
+- Added a mutex protecting execution of MPD commands
+- Automatic reconnect after the server dropped the connection
 
 ## 0.0.3
 
-* Support for logging
-* Better support for fetching stickers from MPD
-* Fixed sticker commands
-* Add support for ranges
+- Support for logging
+- Better support for fetching stickers from MPD
+- Fixed sticker commands
+- Add support for ranges
 
 ## 0.0.2
 
-* Support for connecting to unix domain sockets
-* Fixed some bugs
+- Support for connecting to unix domain sockets
+- Fixed some bugs
 
 ## 0.0.1
 
-* Porting code from mpd-python2
+- Porting code from mpd-python2
